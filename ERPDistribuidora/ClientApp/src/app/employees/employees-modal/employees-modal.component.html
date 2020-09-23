@@ -1,0 +1,27 @@
+<<h1>Lista de empleados</h1>
+
+<mat-form-field>
+  <mat-label>Filtro</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ej. taza" #input>
+</mat-form-field>
+
+<div>
+  <mat-table class="items-table mat-elevation-z8" [dataSource]="dataSource">
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef> Nยบ </mat-header-cell>
+      <mat-cell *matCellDef="let employee"> {{employee.id}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+      <mat-cell *matCellDef="let employee"> {{employee.name}} </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{'highlight': selectedRowIndex == row.id}" (click)="onRowClicked(row)"></mat-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+</div>
+
+<div>
+  <button mat-raised-button color="primary" (click)="onAcceptButton()">Aceptar</button>
+  <button mat-raised-button (click)="onCancelButton()">Cancelar</button>
+</div>

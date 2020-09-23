@@ -1,0 +1,19 @@
+.table.td-vertical-center > tbody > tr > td {
+  vertical-align: middle;
+}
+
+.mat-icon {
+  cursor: pointer;
+}
+
+.row {
+  margin-bottom: 1rem;
+}
+
+input.openModal {
+  cursor: pointer;
+}
+
+.mat-button-base {
+  margin: 8px 8px 8px 0;
+}

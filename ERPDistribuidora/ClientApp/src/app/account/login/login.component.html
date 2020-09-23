@@ -1,0 +1,42 @@
+<h1>Introduzca sus datos</h1>
+
+<div class="container" *ngIf="!post; else forminfo" novalidate>
+  <form class="form" [formGroup]="formGroup">
+    <div class="row">
+
+      <!-- Nombre usuario -->
+      <mat-form-field class="col-md-8 form-element">
+        <input matInput placeholder="Usuario" formControlName="userName" required>
+        <mat-error *ngIf="!formGroup.controls['userName'].valid && formGroup.controls['userName'].touched">
+          El campo Usuario es requerido
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div class="row">
+
+      <!-- Password -->
+      <mat-form-field class="col-md-8 form-element">
+        <input matInput #password [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password" required>
+        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <mat-error *ngIf="!formGroup.controls['password'].valid && formGroup.controls['password'].touched">
+          El campo Password es requerido
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-4 col-md-offset-2">
+        <span>
+          <button mat-raised-button color="primary" [disabled]="!formGroup.valid" (click)="login()">Login</button>
+          <button mat-raised-button [routerLink]='["/"]'>Cancelar</button>
+        </span>
+
+      </div>
+
+    </div>
+
+  </form>
+</div>

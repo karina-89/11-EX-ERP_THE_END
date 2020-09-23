@@ -1,0 +1,27 @@
+<h1>Categorias producto</h1>
+
+<p *ngIf="!(itemsCategories && itemsCategories.length)">No hay registros</p>
+
+<table class="table mat-elevation-z8 table-striped td-vertical-center" *ngIf="(itemsCategories && itemsCategories.length)">
+  <thead>
+    <tr>
+      <th>Nº</th>
+      <th>Descripción</th>
+      <th class="text-center">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let itemsCategory of itemsCategories">
+      <td>{{itemsCategory.id}}</td>
+      <td>{{itemsCategory.name}}</td>
+      <td class="text-center">
+        <mat-icon color="primary" matTooltip="Editar" [routerLink]='["/itemscategories-edit/" + itemsCategory.id]'>edit</mat-icon>
+        <mat-icon color="warn" matTooltip="Borrar" (click)="deleteConfirm(itemsCategory)">delete_forever</mat-icon>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div align="end">
+  <mat-icon color="primary" matTooltip="Agregar categoría" [inline]="true" style="font-size: 36px;" [routerLink]='["/itemscategories-add"]'>library_add</mat-icon>
+</div>

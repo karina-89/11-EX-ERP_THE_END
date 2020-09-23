@@ -1,0 +1,48 @@
+<h1>{{editMode ? 'Editar' : 'Añadir'}} Producto</h1>
+<div class="container" *ngIf="!post; else forminfo" novalidate>
+  <form class="form" (ngSubmit)="save()" [formGroup]="formGroup">
+
+    <div class="row">
+      <!-- Nombre -->
+      <mat-form-field class="col-md-8 form-element">
+        <input matInput placeholder="Nombre" formControlName="name" required>
+        <mat-error *ngIf="!formGroup.controls['name'].valid && formGroup.controls['name'].touched">
+          El campo Nombre es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Precio -->
+      <mat-form-field class="col-md-2 form-element">
+        <input matInput placeholder="Precio" formControlName="price" type="number">
+        <mat-error *ngIf="!formGroup.controls['price'].valid && formGroup.controls['price'].touched">
+          El campo Precio es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <!-- Nº categoría -->
+      <mat-form-field class="col-md-2 form-element">
+        <mat-icon matTooltip="Buscar categoría" matSuffix>search</mat-icon>
+        <input matInput class="openModal" placeholder="Nº categoría" formControlName="itemsCategoryId" required matTooltip="Buscar categoría" (focus)="selectItemsCategory($event)" readonly>
+        <mat-error *ngIf="!formGroup.controls['itemsCategoryId'].valid && formGroup.controls['itemsCategoryId'].touched">
+          El campo Nº categoría es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Nombre categoría -->
+      <mat-form-field class="col-md-8 form-element">
+        <input matInput placeholder="Nombre categoría" formControlName="itemsCategoryName" readonly>
+        <mat-error *ngIf="!formGroup.controls['itemsCategoryName'].valid && formGroup.controls['itemsCategoryName'].touched">
+          El campo Nombre categoría es requerido
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div class="form-element">
+      <button mat-raised-button color="primary" [disabled]="!formGroup.valid" type="submit">Guardar</button>
+      <button mat-raised-button [routerLink]='["/items"]'>Cancelar</button>
+    </div>
+  </form>
+</div>

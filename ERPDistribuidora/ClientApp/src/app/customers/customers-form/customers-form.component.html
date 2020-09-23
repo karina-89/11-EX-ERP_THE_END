@@ -1,0 +1,81 @@
+<h1>{{editMode ? 'Editar' : 'Añadir'}} Cliente</h1>
+<div class="container" *ngIf="!post; else forminfo" novalidate>
+  <form class="form" (ngSubmit)="save()" [formGroup]="formGroup">
+
+    <div class="row">
+      <!-- Nombre -->
+      <mat-form-field class="col-md-10 form-element">
+        <input matInput placeholder="Nombre" formControlName="name" required>
+        <mat-error *ngIf="!formGroup.controls['name'].valid && formGroup.controls['name'].touched">
+          El campo Nombre es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <!-- Dirección -->
+      <mat-form-field class="col-md-10 form-element">
+        <input matInput placeholder="Dirección" formControlName="address" required>
+        <mat-error *ngIf="!formGroup.controls['address'].valid && formGroup.controls['address'].touched">
+          El campo Dirección es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <!-- Código postal -->
+      <mat-form-field class="col-md-2 form-element">
+        <input matInput placeholder="Código postal" formControlName="postalCode" required>
+        <mat-error *ngIf="!formGroup.controls['postalCode'].valid && formGroup.controls['postalCode'].touched">
+          El campo Código postal es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Población -->
+      <mat-form-field class="col-md-8 form-element">
+        <input matInput placeholder="Población" formControlName="city" required>
+        <mat-error *ngIf="!formGroup.controls['city'].valid && formGroup.controls['city'].touched">
+          El campo Población es requerido
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div class="row">
+      <!-- Provincia -->
+      <mat-form-field class="col-md-8 form-element">
+        <input matInput placeholder="Provincia" formControlName="county" required>
+        <mat-error *ngIf="!formGroup.controls['county'].valid && formGroup.controls['county'].touched">
+          El campo Provincia es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <h3 *ngIf="(orders && orders.length)">Pedidos</h3>
+    <table class="table mat-elevation-z8 table-striped text-center td-vertical-center" *ngIf="(orders && orders.length)">
+      <thead>
+        <tr>
+          <th>Nº pedido</th>
+          <th>Empleado</th>
+          <th class="text-center">Fecha creación</th>
+          <th class="text-center">Fecha envío</th>
+          <th class="text-center">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders">
+          <td>{{order.id}}</td>
+          <td>{{order.employee?.name}}</td>
+          <td class="text-center">{{order.creationDate | date : 'dd-MM-yyyy'}}</td>
+          <td class="text-center">{{order.shipDate | date : 'dd-MM-yyyy'}}</td>
+          <td class="text-center">{{order.orderStatus}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="form-element">
+      <button mat-raised-button color="primary" [disabled]="!formGroup.valid" type="submit">Guardar</button>
+      <button mat-raised-button [routerLink]='["/customers"]'>Cancelar</button>
+    </div>
+  </form>
+</div>

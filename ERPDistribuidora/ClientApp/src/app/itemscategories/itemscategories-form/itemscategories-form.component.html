@@ -1,0 +1,20 @@
+<h1>{{editMode ? 'Editar' : 'Añadir'}} Categoría Producto</h1>
+<div class="container" *ngIf="!post; else forminfo" novalidate>
+  <form class="form" (ngSubmit)="save()" [formGroup]="formGroup">
+
+    <div class="row">
+      <!-- Nombre -->
+      <mat-form-field class="col-md-10 form-element">
+        <input matInput placeholder="Nombre" formControlName="name" required>
+        <mat-error *ngIf="!formGroup.controls['name'].valid && formGroup.controls['name'].touched">
+          El campo Nombre es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-element">
+      <button mat-raised-button color="primary" [disabled]="!formGroup.valid" type="submit">Guardar</button>
+      <button mat-raised-button [routerLink]='["/itemscategories"]'>Cancelar</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,120 @@
+<h1>{{editMode ? 'Editar' : 'Añadir'}} Empleado</h1>
+<div class="container" *ngIf="!post; else forminfo" novalidate>
+  <form class="form" (ngSubmit)="save()" [formGroup]="formGroup">
+
+    <div class="row">
+      <!-- Nombre -->
+      <mat-form-field class="col-md-8 form-element">
+        <input matInput placeholder="Nombre" formControlName="name" required>
+        <mat-error *ngIf="!formGroup.controls['name'].valid && formGroup.controls['name'].touched">
+          El campo Nombre es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <div class="col-md-2"></div>
+      <!-- Salario -->
+      <mat-form-field class="col-md-2 form-element">
+        <input matInput placeholder="Salario" formControlName="salary" type="number">
+        <mat-error *ngIf="!formGroup.controls['salary'].valid && formGroup.controls['salary'].touched">
+          El campo Nombre es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <!-- Precio -->
+      <mat-form-field class="col-md-8 form-element">
+        <input matInput placeholder="Dirección" formControlName="address">
+        <mat-error *ngIf="!formGroup.controls['address'].valid && formGroup.controls['address'].touched">
+          El campo Dirección es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <!-- Código postal -->
+      <mat-form-field class="col-md-2 form-element">
+        <input matInput placeholder="Código postal" formControlName="postalCode">
+        <mat-error *ngIf="!formGroup.controls['postalCode'].valid && formGroup.controls['postalCode'].touched">
+          El campo Código postal es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Población -->
+      <mat-form-field class="col-md-8 form-element">
+        <input matInput placeholder="Población" formControlName="city">
+        <mat-error *ngIf="!formGroup.controls['city'].valid && formGroup.controls['city'].touched">
+          El campo Población es requerido
+        </mat-error>
+      </mat-form-field>
+
+    </div>
+
+    <div class="row">
+      <!-- Provincia -->
+      <mat-form-field class="col-md-8 form-element">
+        <input matInput placeholder="Provincia" formControlName="county">
+        <mat-error *ngIf="!formGroup.controls['county'].valid && formGroup.controls['county'].touched">
+          El campo Provincia es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <!-- Usuario -->
+      <mat-form-field class="col-md-4 form-element">
+        <input matInput placeholder="Usuario" formControlName="userName" required>
+        <mat-error *ngIf="!formGroup.controls['userName'].valid && formGroup.controls['userName'].touched">
+          El campo Usuario es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Password -->
+      <mat-form-field class="col-md-4 form-element">
+        <input matInput #password [type]="hide ? 'password' : 'text'" placeholder="Password" formControlName="password" required>
+        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        <mat-error *ngIf="!formGroup.controls['password'].valid && formGroup.controls['password'].touched">
+          El campo Password es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Role -->
+      <mat-form-field class="col-md-4 form-element">
+        <!--<input matInput placeholder="Role" formControlName="role" required>-->
+        <mat-select placeholder="Selecione rol" formControlName="role">
+          <mat-option *ngFor="let rol of roles" [value]="rol.id">{{rol.name}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="!formGroup.controls['role'].valid && formGroup.controls['role'].touched">
+          El campo Role es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <h3 *ngIf="(orders && orders.length)">Pedidos</h3>
+    <table class="table mat-elevation-z8 table-striped text-center td-vertical-center" *ngIf="(orders && orders.length)">
+      <thead>
+        <tr>
+          <th>Nº pedido</th>
+          <th>Cliente</th>
+          <th class="text-center">Fecha creación</th>
+          <th class="text-center">Fecha envío</th>
+          <th class="text-center">Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders">
+          <td>{{order.id}}</td>
+          <td>{{order.customer.name}}</td>
+          <td class="text-center">{{order.creationDate | date : 'dd-MM-yyyy'}}</td>
+          <td class="text-center">{{order.shipDate | date : 'dd-MM-yyyy'}}</td>
+          <td class="text-center">{{order.orderStatus}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="form-element">
+      <button mat-raised-button color="primary" [disabled]="!formGroup.valid" type="submit">Guardar</button>
+      <button mat-raised-button [routerLink]='["/employees"]'>Cancelar</button>
+    </div>
+  </form>
+</div>

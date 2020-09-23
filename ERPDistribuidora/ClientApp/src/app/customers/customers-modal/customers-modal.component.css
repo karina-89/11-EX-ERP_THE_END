@@ -1,0 +1,17 @@
+.highlight {
+  background: #42A948; /* green */
+}
+
+.mat-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+.mat-column-id {
+  flex: 0 0 15%;
+}
+
+.mat-column-price {
+  text-align: right;
+  justify-content: flex-end;
+  flex: 0 0 15%;
+}

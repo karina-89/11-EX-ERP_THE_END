@@ -1,0 +1,163 @@
+<h1>{{editMode ? 'Editar' : 'Crear'}} Pedido</h1>
+
+<div class="container" *ngIf="!post; else forminfo" novalidate>
+  <form class="form" (ngSubmit)="save()" [formGroup]="formGroup">
+
+    <div class="row">
+      <!-- Nº cliente -->
+      <mat-form-field class="col-md-1 form-element">
+        <mat-icon matTooltip="Buscar cliente" matSuffix>search</mat-icon>
+        <input matInput placeholder="Nº cliente" formControlName="customerId" required class="openModal" matTooltip="Buscar cliente" readonly (focus)="selectCustomer($event)">
+        <mat-error *ngIf="!formGroup.controls['customerId'].valid && formGroup.controls['customerId'].touched">
+          El campo Nº cliente es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Nombre cliente -->
+      <mat-form-field class="col-md-8 form-element">
+        <input matInput placeholder="Nombre" formControlName="customerName" readonly>
+      </mat-form-field>
+
+      <!-- Fecha de creación -->
+      <mat-form-field class="col-md-3 form-element">
+        <input matInput placeholder="Fecha de creación" formControlName="creationDate" type="date" readonly>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <!-- Dirección cliente -->
+      <mat-form-field class="col-md-9 form-element">
+        <input matInput placeholder="Dirección" formControlName="customerAddress" readonly>
+      </mat-form-field>
+
+      <!-- Fecha de envío -->
+      <mat-form-field class="col-md-3 form-element">
+        <input matInput placeholder="Fecha de envío" formControlName="shipDate" type="date">
+      </mat-form-field>
+
+    </div>
+
+    <div class="row">
+      <!-- Población cliente -->
+      <mat-form-field class="col-md-3 form-element">
+        <input matInput placeholder="Población" formControlName="customerCity" readonly>
+      </mat-form-field>
+
+      <!-- Provincia cliente -->
+      <mat-form-field class="col-md-3 form-element">
+        <input matInput placeholder="Provincia" formControlName="customerCounty" readonly>
+      </mat-form-field>
+    </div>
+
+    <div class="row">
+      <!-- Nº empleado -->
+      <mat-form-field class="col-md-1 form-element">
+        <mat-icon matTooltip="Buscar empleado" matSuffix>search</mat-icon>
+        <input matInput placeholder="Nº empleado" formControlName="employeeId" class="openModal" matTooltip="Buscar empleado" readonly (focus)="selectEmployee($event)">
+        <mat-error *ngIf="!formGroup.controls['employeeId'].valid && formGroup.controls['employeeId'].touched">
+          El campo Nº empleado es requerido
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Nombre empleado -->
+      <mat-form-field class="col-md-5 form-element">
+        <input matInput placeholder="Nombre" formControlName="employeeName" readonly>
+      </mat-form-field>
+
+      <!-- Fecha de asignación -->
+      <mat-form-field class="col-md-3 form-element">
+        <input matInput placeholder="Fecha de asignación" formControlName="assignDate" type="date" readonly>
+      </mat-form-field>
+
+
+      <!-- Estado pedido -->
+      <mat-form-field class="col-md-3 form-element">
+        <mat-select placeholder="Estado pedido" formControlName="orderStatus">
+          <mat-option *ngFor="let oStatus of orderStatuses" [value]="oStatus.id">{{oStatus.id}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="!formGroup.controls['orderStatus'].valid && formGroup.controls['orderStatus'].touched">
+          El campo Estado pedido es requerido
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <table class="table mat-elevation-z8 table-striped text-center td-vertical-center">
+      <thead>
+        <tr>
+          <th>Nº</th>
+          <th>Descripción</th>
+          <th>Cantidad</th>
+          <th>Precio</th>
+          <th>Importe</th>
+          <th>Borrar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container formArrayName="orderLines" *ngFor="let orderLine of formGroup.get('orderLines').controls; let i=index;">
+          <tr [formGroupName]="i">
+            <td>
+              <mat-form-field>
+                <mat-label></mat-label>
+                <mat-icon matTooltip="Buscar producto" matSuffix>search</mat-icon>
+                <input matInput class="openModal" matTooltip="Buscar producto" type="text" formControlName="itemId" readonly (focus)="selectItem($event, i)" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field>
+                <mat-label></mat-label>
+                <input matInput type="text" formControlName="description" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field style="text-align: right">
+                <mat-label></mat-label>
+                <input matInput type="number" formControlName="quantity" />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field style="text-align: right">
+                <mat-label></mat-label>
+                <input matInput type="number" formControlName="price" readonly />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field style="text-align: right">
+                <mat-label></mat-label>
+                <input matInput type="number" formControlName="amount" step="0.01" readonly />
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-icon class="delete" color="warn" matTooltip="Borrar línea" (click)="deleteLineConfirm(i)">delete_forever</mat-icon>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+      <tfoot>
+        <tr style="background-color: rgba(0,0,0,.25)">
+          <th colspan="4" style="text-align: right">Total</th>
+          <th style="text-align: right">{{formGroup.get('totalAmount').value | number: '1.2-2'}}</th>
+          <th>&nbsp;</th>
+        </tr>
+        <tr style="background-color: rgba(0,0,0,.25)">
+          <th colspan="4" style="text-align: right">Total IVA incl. (21%)</th>
+          <th style="text-align: right">{{formGroup.get('totalAmountInclVAT').value | number: '1.2-2'}}</th>
+          <th>&nbsp;</th>
+        </tr>
+      </tfoot>
+    </table>
+    <div align="end">
+      <mat-icon color="primary" matTooltip="Agregar línea" [inline]="true" style="font-size: 36px;" (click)="addLine()">library_add</mat-icon>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-4 col-md-offset-2">
+        <span>
+          <button mat-raised-button color="primary" [disabled]="!formGroup.valid" type="submit">Guardar</button>
+          <button mat-raised-button [routerLink]='["/orders"]'>Cancelar</button>
+        </span>
+
+      </div>
+
+    </div>
+  </form>
+</div>

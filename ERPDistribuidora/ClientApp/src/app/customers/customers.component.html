@@ -1,0 +1,35 @@
+<h1>Clientes</h1>
+
+<p *ngIf="!(customers && customers.length)">No hay registros</p>
+
+<table class="table mat-elevation-z8 table-striped td-vertical-center" *ngIf="(customers && customers.length)">
+  <thead>
+    <tr>
+      <th>Nº</th>
+      <th>Nombre</th>
+      <th>Dirección</th>
+      <th>Población</th>
+      <th>Código postal</th>
+      <th>Provincia</th>
+      <th class="text-center">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let customer of customers">
+      <td>{{customer.id}}</td>
+      <td>{{customer.name}}</td>
+      <td>{{customer.address}}</td>
+      <td>{{customer.city}}</td>
+      <td>{{customer.postalCode}}</td>
+      <td>{{customer.county}}</td>
+      <td class="text-center">
+        <mat-icon color="primary" matTooltip="Editar" [routerLink]='["/customers-edit/" + customer.id]'>edit</mat-icon>
+        <mat-icon color="warn" matTooltip="Borrar" (click)="deleteConfirm(customer)">delete_forever</mat-icon>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div align="end">
+  <mat-icon color="primary" matTooltip="Agregar cliente" [inline]="true" style="font-size: 36px;" [routerLink]='["/customers-add"]'>library_add</mat-icon>
+</div>
